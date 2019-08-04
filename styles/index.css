@@ -1,0 +1,248 @@
+
+body{
+	margin: 0;
+	padding: 0;
+	background-image: url("./imgs/background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    font-family: 'Arimo', sans-serif;
+}
+
+.fim-head{
+	display: flex;
+	grid-area:fim-head;
+	z-index: 10;
+	justify-content: space-around;
+	/*background: linear-gradient(to right, #33ccff 0%, #009933 100%);*/
+	background-color: #B7E9D8.04;
+}
+
+.meio-head{
+	grid-area: meio-head;
+	background-color: #FFFFFF;
+	border-bottom: #ebf0ed;
+}
+
+.inicio-head{
+	grid-area: inicio-head;
+	display: flex;
+	justify-content: center;
+	height: 99px;
+	background-color: #00846B;
+	/*border-bottom: 2px solid #fff;*/
+	box-shadow:-35px 20px 150px black;
+}
+
+.inicio-head img {
+	width: 65px;
+	height: 80px;
+	margin: 0;
+	padding: 0;
+	margin-top: 6px;
+}
+.fim-head img, .imagem-perfil{
+	border-radius: 55px;
+	margin-top: 6px;
+	width: 80px;
+	height: 80px;
+}
+
+.head{
+	grid-area: header-principal;
+	display: grid;
+	width: 100%;
+	height: 99px;
+	/*border-bottom: 2px solid #fff;*/
+	box-shadow:-20px 20px 50px hsl(229, 81%, 87%);
+	grid-template-columns: 3fr 1.347fr;
+	grid-template-areas: 
+    'meio-head fim-head'
+}
+picture{
+    display:flex;
+}
+.fim-head span {
+	margin-top: 45%;
+	margin-right: 5px;
+	color: #ffffff;
+}
+.menu-toggle{
+	margin-top: 17px;
+	height: 45px;
+	background-color: #fff;
+	border-radius: 10px;
+	width: 40px;
+	display: none;
+}
+.sino{
+	margin-top: 31px;
+	width: 50px;
+	height: 50px;
+	color: #ffffff;
+	margin-left: 10px;
+	justify-content: center;
+}
+.bot{
+	display: none;
+}
+.top{
+	display: flex;
+}
+.sino{
+	margin-top: 31px;
+	width: 50px;
+	color: #ffffff;
+	height: 50px;
+	margin-left: 10px;
+	justify-content: center;
+}
+span:hover, .sino:hover{
+	color: hsl(229, 81%, 94%);
+}
+
+
+.side{
+	grid-area: side;
+	min-width: 80px;
+	background-color: #23997C;
+}
+.div-perfil{
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+body{
+	display: grid;
+	grid-template-columns: 0.7fr 3fr 1fr;
+	grid-template-rows: 0.7fr 5.542fr;
+	grid-template-areas: 
+	'side header-principal header-principal '
+	'side conteudo-principal conteudo-principal'
+
+}
+.botao{
+	text-decoration: none;
+	color: #fff;
+}
+
+nav ul li {
+	font-weight: bold;
+	font-size: 1.2em;
+	padding: 0;
+	padding-bottom: 10px;
+	text-align: center;
+
+}
+body ul{
+	padding: 0;
+}
+.user{
+	text-align: center;
+	color: #fff;
+	height: 23px;
+	text-decoration: underline;
+	box-sizing: border-box;
+	font-weight:bold;
+	overflow: hidden;
+}
+
+@media(max-width: 480px){
+	.menu-toggle{display: block;}
+	.inicio-head{display: none;}
+	.fim-head span {display: none;}
+	.head{
+		grid-template-columns: 1fr;
+		box-shadow: none;
+		border-bottom: 2px solid black;
+		grid-template-areas: 
+		'fim-head'
+	 }
+	 body{
+	 	grid-template-columns: 1fr;
+	 	grid-template-rows: 0.7fr 5.542fr;
+	 	grid-template-areas: 
+	 	'header-principal'
+	 	'conteudo-principal'
+	 }
+	 .fim-head{
+	 	justify-content: space-between;
+	 }
+	 .side{display: none;}
+	 .fim-head img {border-radius: 0;}
+     .bot{
+     	display:flex;
+     	color: #23997C;
+     }
+     .top{
+     	display:none;
+     	color: #23997C;
+     }
+
+	/*quando tiver a grid total apagar a primeira coluna da linha 1 com grid-template-area*/
+
+}
+
+
+
+.conteudo-principal{
+	grid-area: conteudo-principal;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	justify-content: space-around;
+	grid-row-gap: 10px;
+}
+
+.conteudo-principal:nth-child(1n){
+	margin-top: 20px;
+	margin-left: 30px;
+}
+
+.tabel{
+	box-sizing: content-box;
+	display: grid;
+	grid-template-rows: 20% 80%; 
+	border: solid 1px gray;
+	border-radius: 15px;
+	text-align: center;
+	box-shadow: 2px 2px 1px 1px #000;
+	width: 230px;
+	height: 300px;
+	background-color: #fff;
+	grid-template-areas: 
+	'thead'
+	'tbody'
+}
+.tabel thead{
+	grid-area: thead;
+	display: flex;
+	width: 99.75%;
+	height: 80%;
+	border:solid 1px gray;
+	background-color: #23997C;
+	border-top-left-radius: 13px;
+	border-top-right-radius: 15px;
+
+
+}	
+.tabel tbody {
+	grid-area: tbody;
+	display: grid;
+
+}
+td{
+	padding-left: 20px;
+}
+
+.tabel thead tr th{
+	display: inline;
+	top:30%;
+	position: relative;
+	left: 30%;
+	color: #fff;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+

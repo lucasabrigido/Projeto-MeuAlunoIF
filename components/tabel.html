@@ -1,0 +1,76 @@
+<table class="tabel" >
+	<thead>
+		<tr>
+			<th>Segunda</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>07:40</td>
+			<td>POO</td>
+		</tr>
+		<tr>
+			<td>09:20</td>
+			<td>POO</td>
+		</tr>
+		<tr>
+			<td>10:40</td>
+			<td>Arquitetura</td>
+		</tr>
+		<tr>
+			<td>11:10</td>
+			<td>Arquitetura</td>
+		</tr>
+	</tbody>
+</table>
+
+<style>
+
+.tabel{
+	box-sizing: content-box;
+	display: grid;
+	grid-template-rows: 20% 80%; 
+	border: solid 1px gray;
+	border-radius: 15px;
+	text-align: center;
+	box-shadow: 2px 2px 1px 1px #000;
+	width: 230px;
+	height: 300px;
+	background-color: #fff;
+	grid-template-areas: 
+	'thead'
+	'tbody'
+}
+.tabel thead{
+	grid-area: thead;
+	display: flex;
+	width: 99.75%;
+	height: 80%;
+	border:solid 1px gray;
+	background-color: #23997C;
+	border-top-left-radius: 13px;
+	border-top-right-radius: 15px;
+
+
+}	
+.tabel tbody {
+	grid-area: tbody;
+	display: grid;
+
+}
+td{
+	padding-left: 20px;
+}
+
+.tabel thead tr th{
+	display: inline;
+	top:30%;
+	position: relative;
+	left: 30%;
+	color: #fff;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+
+</style>
