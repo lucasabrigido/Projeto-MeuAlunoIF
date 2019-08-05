@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../styles/pagina.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width">
+	<link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+	<script src="../scripts/pagina.js"></script>
+</head>
+
+<body >
+	<header class="head">	
+		<div class="meio-head"></div>
+
+		<div class="fim-head">
+			<div class="sino top">
+				<i class="fa fa-bell" style="font-size:28px;color:inherit;"></i>
+			</div>
+			<picture>
+                 <span>&#9660</span>
+				<source srcset="../imgs/foto-perfil.jpg" media = "(min-width: 481px)">
+				<img src="../imgs/logo-if2.png" alt="logo">
+			</picture>
+
+			<div class="sino bot">
+				<i class="fa fa-bell" style="font-size:28px;color:inherit;"></i>
+			</div>	
+	
+			<button class="menu-toggle">
+            	<i class="fa fa-lg fa-bars"></i>
+        	</button>
+		</div>
+	</header>	
+
+	<div class="side">
+
+		<div class="inicio-head">
+			<img class="logo-if" src="../imgs/logo-if.png">
+		</div>
+		<div class="div-perfil" >
+			<img class="imagem-perfil" src="../imgs/foto-perfil.jpg">
+		</div>
+		
+
+		<h3 class="user">Lucas Araújo Brígido</h3>
+		<nav class="menu">
+            <ul style="list-style-type: none;">
+                <li>
+                    <a class="botao" href="./index.html">Diario</a>
+                </li>
+                <li>
+                    <a class="botao" id="horario" href="./index.html">Horario</a>
+                </li>
+                <li>
+                    <a href="./index.html" class="botao">Material</a>
+                </li>
+                <li>
+                    <a href="./index.html" class="botao">Matriz</a>
+                </li>
+                <li>
+                	<a href="./index.html" class="botao">Calendário</a>
+                </li>
+            </ul>
+        </nav>		
+	</div>
+
+	<div class="conteudo-principal">
+		<table class="tabel" >
+			<thead>
+				<tr>
+					<th>Segunda</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>07:40</td>
+					<td>POO</td>
+				</tr>
+				<tr>
+					<td>09:20</td>
+					<td>POO</td>
+				</tr>
+				<tr>
+					<td>10:40</td>
+					<td>Arquitetura</td>
+				</tr>
+				<tr>
+					<td>11:10</td>
+					<td>Arquitetura</td>
+				</tr>
+			</tbody>
+		</table>
+
+<script type="text/javascript" src="../scripts/index.js">
+	/**
+		var query = location.search.slice(1);
+		var partes = query.split('&');
+		var data = {};
+		partes.forEach(function (parte) {
+		    var chaveValor = parte.split('=');
+		    var chave = chaveValor[0];
+		    var valor = chaveValor[1];
+		    data[chave] = valor;
+});
+
+console.log(data); 
+	**/
+</script>
+
+</html>
+
