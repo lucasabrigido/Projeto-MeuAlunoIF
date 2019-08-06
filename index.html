@@ -35,7 +35,7 @@ document.usuarioForm.onsubmit = async e => {
         method: form.method,
         body: new URLSearchParams(data)
     }
-fetch('/fristlogin', options)
+fetch('https://myalunoif.herokuapp.com/fristlogin', options)
     .then(resp => resp.json())
     .then(res => {
         if(res[0] === true){
