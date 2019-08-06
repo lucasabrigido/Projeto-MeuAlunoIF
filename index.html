@@ -39,7 +39,7 @@ fetch('/fristlogin', options)
     .then(resp => resp.json())
     .then(res => {
         if(res[0] === true){
-            window.location.href = `./Front/html/pagina.html?id_Matricula=${res[1]}`
+            window.location.href = `https://myalunoif.herokuapp.com/Front/html/pagina.html?id_Matricula=${res[1]}`
         }else{
             console.log("algo deu errado")
         }
