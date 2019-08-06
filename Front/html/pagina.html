@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="viewport" content="width=device-width">
 	<link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
-	<script src="../scripts/pagina.js"></script>
+	<script type="text/javascript" src="../scripts/pagina.js"></script>
 </head>
 
 <body >
@@ -19,7 +19,7 @@
 			</div>
 			<picture>
                  <span>&#9660</span>
-				<source srcset="../imgs/foto-perfil.jpg" media = "(min-width: 481px)">
+				<source srcset="" id="img" media = "(min-width: 481px)">
 				<img src="../imgs/logo-if2.png" alt="logo">
 			</picture>
 
@@ -39,11 +39,11 @@
 			<img class="logo-if" src="../imgs/logo-if.png">
 		</div>
 		<div class="div-perfil" >
-			<img class="imagem-perfil" src="../imgs/foto-perfil.jpg">
+			<img class="imagem-perfil" id="img" src="">
 		</div>
 		
 
-		<h3 class="user">Lucas Araújo Brígido</h3>
+		<h3 class="user"> </h3>
 		<nav class="menu">
             <ul style="list-style-type: none;">
                 <li>
@@ -92,20 +92,19 @@
 			</tbody>
 		</table>
 
-<script type="text/javascript" src="../scripts/index.js">
-	/**
-		var query = location.search.slice(1);
-		var partes = query.split('&');
-		var data = {};
-		partes.forEach(function (parte) {
-		    var chaveValor = parte.split('=');
-		    var chave = chaveValor[0];
-		    var valor = chaveValor[1];
-		    data[chave] = valor;
-});
+<script>
+	var query = location.search.slice(1);
+	var partes = query.split('&');
+	var data = {};
+	partes.forEach(function (parte) {
+	    var chaveValor = parte.split('=');
+	    var chave = chaveValor[0];
+	    var valor = chaveValor[1];
+	    data[chave] = valor;
+	});
 
-console.log(data); 
-	**/
+console.log(data)
+
 </script>
 
 </html>

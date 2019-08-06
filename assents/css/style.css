@@ -1,0 +1,87 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+@font-face {
+  font-family: SFpro;
+  src: url("./fonte/SFProText-Medium.ttf");
+}
+body {
+  background: url(../image/Background.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+h1 {
+  font-family: SFpro;
+  color: #707070;
+  padding-bottom: 15px;
+  margin-bottom: 40px;
+}
+
+.form {
+  position: relative;
+  background: #ffffff;
+  max-width: 500px;
+  margin: 0 auto 100px;
+  padding: 50px 40px 0px 40px;
+  height: 400px;
+  text-align: center;
+  border-radius: 30px;
+  box-shadow: 4px 9px 28px rgba(0, 0, 0, 0.16);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px 15px 15px 25px;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: linear-gradient(to bottom right, #00B894 , #60D3BD);
+  border: 0;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: linear-gradient(to bottom right, #2BA281 , #60D3BD);
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4caf50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+button {
+  width: 150px;
+  height: 40px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 15px;
+  border-radius: 30px;
+}

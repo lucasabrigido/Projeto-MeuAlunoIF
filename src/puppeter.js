@@ -35,13 +35,18 @@ async function login(username, password, next) {
 			} else {
 				checkAcademico = 'True'
 			}
-			return checkAcademico
+
+			const foto_perfil = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td:nth-child(1) > img").src
+			const nome = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td.titulo").innerHTML.split(",")
+			const nome_perfil = nome[1].split("!")[0]
+			return [checkAcademico,foto_perfil,nome_perfil]
 		})
-		if (checkAcademico == 'True') {
+		if (checkAcademico[0] == 'True') {
+			checkAcademico[0] = true
 			actions.browserWSEndpoint = browser.wsEndpoint();
 			browser.disconnect();
 			console.log("Logado")
-			return true
+			return checkAcademico
 		} else {
 			console.log("Usuario não existe dentro do sistema qAcademico")
 			await browser.close();
