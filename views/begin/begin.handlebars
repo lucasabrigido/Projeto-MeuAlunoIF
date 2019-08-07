@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="../styles/pagina.css">
+	<link rel="stylesheet" href="./assents/css/begin.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="viewport" content="width=device-width">
 	<link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
-	<script type="text/javascript" src="../scripts/pagina.js"></script>
+	<script type="text/javascript" src="./js/begin.js"></script>
 </head>
 
 <body >
@@ -20,7 +20,7 @@
 			<picture>
                  <span>&#9660</span>
 				<source srcset="" id="img" media = "(min-width: 481px)">
-				<img src="../imgs/logo-if2.png" alt="logo">
+				<img src="./assents/images/logo-if2.png" alt="logo">
 			</picture>
 
 			<div class="sino bot">
@@ -36,7 +36,7 @@
 	<div class="side">
 
 		<div class="inicio-head">
-			<img class="logo-if" src="../imgs/logo-if.png">
+			<img class="logo-if" src="./assents/images/logo-if.png">
 		</div>
 		<div class="div-perfil" >
 			<img class="imagem-perfil" id="img" src="">
@@ -93,16 +93,17 @@
 		</table>
 
 <script>
-	var query = location.search.slice(1);
-	var partes = query.split('&');
-	var data = {};
-	partes.forEach(function (parte) {
-	    var chaveValor = parte.split('=');
-	    var chave = chaveValor[0];
-	    var valor = chaveValor[1];
-	    data[chave] = valor;
-	});
-
+//var query = location.search.slice(1);
+//var partes = query.split('&');
+	//var data = {};
+	//partes.forEach(function (parte) {
+	//    var chaveValor = parte.split('=');
+	//    var chave = chaveValor[0];
+	  //  var valor = chaveValor[1];
+	////    data[chave] = valor;
+	//});
+const data = {}
+data["id_Matricula"] = document.URL.slice(7).split("/")[1]
 console.log(data)
 
 </script>

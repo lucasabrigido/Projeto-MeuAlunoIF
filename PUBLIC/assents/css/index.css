@@ -2,10 +2,10 @@
 
 @font-face {
   font-family: SFpro;
-  src: url("./fonte/SFProText-Medium.ttf");
+  src: url("../fonts/SFProText-Medium.ttf");
 }
 body {
-  background: url(../image/Background.jpg);
+  background-image: url("../images/background.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
 }

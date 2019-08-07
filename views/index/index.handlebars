@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./assents/css/style.css">
+    <link rel="stylesheet" href="./assents/css/index.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <title>Document</title>
@@ -35,11 +35,16 @@ document.usuarioForm.onsubmit = async e => {
         method: form.method,
         body: new URLSearchParams(data)
     }
-fetch('https://myalunoif.herokuapp.com/fristlogin', options)
+fetch('/fristlogin', options)
     .then(resp => resp.json())
     .then(res => {
         if(res[0] === true){
-            window.location.href = `https://myalunoif.herokuapp.com/Front/html/pagina.html?id_Matricula=${res[1]}`
+            const id_Matricula = res[1]
+            window.location.href = `/${id_Matricula}`
+            /**fetch(`/${res[1]}`, {method: "get"})
+                .then(res=>{
+                    window.location.href = `/${id_Matricula}`
+            })**/
         }else{
             console.log("algo deu errado")
         }

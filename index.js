@@ -1,8 +1,10 @@
-const porta = process.env.PORT
+const porta = 3003
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const firebase = require('firebase');
+const handlebars = require("express-handlebars")
+
 const firebaseConfig = {
   apiKey: "AIzaSyBJ57zhMNDvT_GCEHZbMiioyDwtK_bTRT8",
   authDomain: "myalunoif.firebaseapp.com",
@@ -14,7 +16,10 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig)
 
-app.use(express.static('.'))
+app.engine('handlebars',handlebars({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
+
+app.use(express.static('./PUBLIC'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 const puppeteer = require('./src/puppeter.js')
@@ -42,17 +47,27 @@ function descriptografar(senha) {
     return decipher.final(DADOS_CRIPTOGRAFAR.codificacao);
 };
 
+app.get('/',(req,res,next)=>{
+	res.render("index/index")
+})
+
 app.post('/fristlogin',(req, res, next)=> {
     console.log("login")
     const username = req.body.username;
     const password =  criptografar(req.body.password)
+    var soma = 0;
     firebase.database().ref('Alunos').once("value")
         .then(snapshot=>{
-            if(snapshot.hasChild(username)===true) res.send([true,username])
+            if(snapshot.hasChild(username)===true){
+            	res.send([true, criptografar(username)])
+                soma++;
+            	console.log("deve ter enviado")
+            }
         })
     //query.execQuery(`INSERT INTO User(login, Password) VALUES('${User.username}','${User.password}')`);
 
     //aqui vamos validar se o usuario existe no qacademico, para depois ver se ele existe no banco firebase
+    console.log("senha", password, username)
     puppeteer.login(username, descriptografar(password), next)
         .then(resp=>{
             if(resp[0] === true){
@@ -64,17 +79,29 @@ app.post('/fristlogin',(req, res, next)=> {
                     }).then(resp=>{
                         firebase.database().ref("Alunos").child(`${username}`).set(resp)
                         //console.log("deu certo")
-                        res.send([true,username]) //true
+                        soma < 1 ? res.send([true,criptografar(username)]) : soma = 0; //true
                     })
             }
             else{
-                res.send(false) //false
+                soma<1 ? res.send(false) : soma = 0; //false
             }
         })
 })
 
+app.get('/:id',(req,res,next)=>{
+	const id_Matricula = descriptografar(req.params.id)
+	console.log("begin")
+    firebase.database().ref('Alunos').once("value")
+        .then(snapshot=>{
+            if(snapshot.hasChild(id_Matricula)===true){
+                res.render('begin/begin')
+            }
+            else console.log("hoje não")
+        })    
+})
+
 app.get('/horario/:id',(req,res,next)=>{
-    const id_Matricula = req.params.id
+    const id_Matricula = descriptografar(req.params.id)
     firebase.database().ref(`Alunos/${id_Matricula}/horarioFinal`).once("value") //firebase.database().ref(`Alunos/${id}/horarioFinal`).once("value")
         .then(snap=>{
             res.json(snap.val())
@@ -102,13 +129,7 @@ app.get('/teste/:id', (req,res,next)=>{
 
 })
 
-app.get('/:id',(req,res,next)=>{
-    const id_Matricula = req.params.id
-    firebase.database().ref(`Alunos/${id_Matricula}/info`).once("value")
-        .then(snap=>{
-            res.send(snap)
-        })
-})
+
 
 
 
