@@ -17,8 +17,10 @@ window.onload = function(){
 				.then(resp=> resp.json())
 				.then(res =>{
 					const conteudoPrincipal = document.querySelector('.conteudo-principal')
-					const tabelPrimeira = document.getElementsByClassName("tabel")["0"]
-					conteudoPrincipal.removeChild(tabelPrimeira)
+					const tabelPrimeira = document.querySelectorAll(".tabel")
+					tabelPrimeira.forEach(e=>{
+						conteudoPrincipal.removeChild(e)
+					})
 					res = Array.from(res)
 					console.log(res)
 					res.forEach(e=>{

@@ -111,117 +111,62 @@ async function myDiary(res) {
 	await page.waitFor(2 * 1000);
 
 	const data = await page.evaluate(() => {
-		const query = document.querySelectorAll('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(3) > tbody > tr > td:nth-child(2) > p > table:nth-child(3) > tbody')
-		const quant_tr = query["0"].children.length - 1;
-		let vetor = new Array()
+		const conteudo = document.querySelectorAll("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(3) > tbody > tr > td:nth-child(2) > p > table:nth-child(3) > tbody")["0"]
+		var vetorN1 = []
+		var vetorN2 = []
+		var vetorAF= []
+		var indice = 0;
+		var meioConteudo = "";
+		var contVetor = 1;
+		var vetorMateria = []
+		var contVetorMateria = 0;
 
-		for (let cont = 0; cont <= quant_tr; cont++) {
-			let N1, N2, Media;
-			//agora vamos entrar dentro de cada tr
-			if ((query["0"].children[cont].classList.value == "") && ((query["0"].children[cont].classList.value != "conteudoTexto") && (query["0"].children[cont].classList.value != "rotulo"))) {
-				//significa que e uma informação de uma cadeira 
 
-				//primeiro vamos pegar as informações do lado esquerdo
-
-				let info_esquerdo = query["0"].children[cont].children["0"].innerText
-
-				//criar o vetor para receber os valores do lado direiro do diario
-				let vetor2 = new Array()
-				// agora vamos pegar as informações do lado direito seguindo os criterios do projeto
-				for (let cont3 = 0; cont3 <= query["0"].children[cont].children["1"].children["0"].children["0"].children.length - 1; cont3++) {
-					vetor2.push(query["0"].children[cont].children["1"].children["0"].children["0"].children[cont3].innerText)
-				}
-				// para contar quantas linhas tem dentro da tabela de notas
-				//query[0].children[2].children[0].children[1].children[0].children.length
-
-				//para verificar se existe nota ou não
-				// query["0"].children[10].children["0"].children["1"].children["0"].children[0].children[4].innerText
-
-				// vetor deve receber os dados de cada tr
-				if (cont + 3 <= quant_tr) {
-					//primeiro vamos fazer a contagem na tabela para saber quantos elementos tem dentro
-					//se no caso num > 2 existe nota, senão não existe
-					let cont_table_1 = query["0"].children[cont + 1].children["0"].children[1].children[0].children.length - 1;
-					let cont_table_2 = query["0"].children[cont + 2].children["0"].children[1].children[0].children.length - 1;
-					let cont_table_3 = query["0"].children[cont + 3].children["0"].children[1].children[0].children.length - 1;
-
-					if (cont_table_1 == 0) {
-						N1 = ""
-						N2 = ""
-						Media = ""
-					} else {
-						//calcular n1
-						N1 = ''
-						for (let x = 1; x <= query["0"].children[cont + 1].children["0"].children[1].children[0].children.length - 1; x++) {
-							N1 += query["0"].children[cont + 1].children["0"].children[1].children[0].children[x].innerText
-							N1 += '\n'
-						}
-						//calcular n2
-						if (cont_table_2 > 0) {
-							N2 = ""
-							for (let x = 1; x <= query["0"].children[cont + 2].children["0"].children[1].children[0].children.length - 1; x++) {
-								N2 += query["0"].children[cont + 2].children["0"].children[1].children[0].children[x].innerText
-								N2 += '\n'
+		for(var i = 1; i<conteudo.children.length; i = i+4){
+				const obj1 = new Object()
+				obj1.materia = conteudo.children[i].children[0].innerText.split("-")[2]
+				obj1.professor = conteudo.children[i].children[0].innerText.split("-")[3]
+				obj1.qtdAula = conteudo.children[i].children[1].children[0].children[0].children[1].children[1].innerText
+				obj1.aulasAdministradas = conteudo.children[i].children[1].children[0].children[0].children[2].children[1].innerText.split("[")[0]
+				obj1.faltas = conteudo.children[i].children[1].children[0].children[0].children[4].children[1].innerText
+				
+				for(var j=i+1; j<=i+3; j++){
+					switch (j) {
+						case i+1:
+							for(var h = 1; h<conteudo.children[j].children[0].children[1].children[0].children.length;h++){
+								vetorN1[h-1] = conteudo.children[j].children[0].children[1].children[0].children[h].children[4].innerText.split(":")[1]
 							}
-
-						} else {
-							N2 = ""
-						}
-						if (cont_table_3 > 0) {
-							Media = ""
-							for (let x = 1; x <= query["0"].children[cont + 3].children["0"].children[1].children[0].children.length - 1; x++) {
-								Media += query["0"].children[cont + 3].children["0"].children[1].children[0].children[x].innerText
-								Media += '\n'
+							obj1.vetorN1 = vetorN1
+							vetorN1 = []
+							break;
+						case i+2:
+							for(var h = 1; h<conteudo.children[j].children[0].children[1].children[0].children.length;h++){
+								vetorN2[h-1] = conteudo.children[j].children[0].children[1].children[0].children[h].children[4].innerText.split(":")[1]
 							}
-
-						} else {
-							Media = ""
-						}
-						//calcular media
-
-						console.log(`N1 \n ${N1} \n  N2 \n ${N2} \n Media \n ${Media}`)
+							obj1.vetorN2 = vetorN2
+							vetorN2 = []
+							break;  
+						case i+3:
+							for(var h = 1; h<conteudo.children[j].children[0].children[1].children[0].children.length;h++){
+								vetorAF[h-1] = conteudo.children[j].children[0].children[1].children[0].children.children[4].innerText.split(":")[1]
+							}
+							obj1.vetorAF = vetorAF
+							vetorAF = []
+							break;
+						default:
 					}
 				}
-
-				vetor.push([info_esquerdo, vetor2, N1, N2, Media])
-
-			} else {
-				console.log("Não faz nada")
-			}
-
+				vetorMateria[contVetorMateria++] = obj1
 		}
-		return vetor
+		return vetorMateria		
 	})
 
 
-	let cont_vetor = data.length - 1;
-	console.log("testando fora do loop");
-	let vetorDiario = new Array()
-	for (let i = 0; i <= cont_vetor; i++) {
-
-		let posic_vetor = data[i]
-
-		let nome_prof = posic_vetor[0].split('-')[3]
-		let nome_cadeira = posic_vetor[0].split('-')[2]
-		let cod_cadeira = (`${posic_vetor[0].split('-')[0]} ${posic_vetor[0].split('-')[1]}`)
-
-		let info_cadeira = posic_vetor[1];
-
-		let carga_horaria = info_cadeira[0];
-		let aulas_ministradas = info_cadeira[2];
-		let faltas = info_cadeira[4];
-		let percent_aulas_presen_ministradas = info_cadeira[7];
-
-		let N1 = posic_vetor[2];
-		let N2 = posic_vetor[3];
-		let Media = posic_vetor[4];
 
 		let d1 = new classe.Diario(nome_cadeira, nome_prof, cod_cadeira, carga_horaria, aulas_ministradas, percent_aulas_presen_ministradas, faltas, N1, N2, Media);
 		vetorDiario.push(d1);
-
-	}
 	console.log("vetorDiario ok")
-	return vetorDiario
+	return data
 }
 
 async function myReportCard(res) {
