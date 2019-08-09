@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
 
 @font-face {
   font-family: SFpro;
@@ -7,7 +8,7 @@
 body {
   background-image: url("../images/background.jpg");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 
 .login-page {
@@ -59,7 +60,7 @@ h1 {
 .form button:hover,
 .form button:active,
 .form button:focus {
-  background: linear-gradient(to bottom right, #2BA281 , #60D3BD);
+  background: linear-gradient(to bottom right, #2f7360 , #60D3BD);
 }
 .form .message {
   margin: 15px 0 0;
@@ -84,4 +85,57 @@ button {
   padding-bottom: 0px;
   margin-top: 15px;
   border-radius: 30px;
+}
+
+.item-1, 
+.item-2, 
+.item-3 {
+  font-family: 'Open Sans', 'sans-serif';
+  position: absolute;
+  display: block;
+  top: 10px;
+  
+  width: 60%;
+  
+  font-size: 1.6em;
+
+  animation-duration: 20s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.item-1{
+  animation-name: anim-1;
+}
+
+.item-2{
+  animation-name: anim-2;
+}
+
+.item-3{
+  animation-name: anim-3;
+}
+
+@keyframes anim-1 {
+  0%, 8.3% { left: -100%; opacity: 0; }
+  8.3%,25% { left: 25%; opacity: 1; }
+  33.33%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-2 {
+  0%, 33.33% { left: -100%; opacity: 0; }
+  41.63%, 58.29% { left: 25%; opacity: 1; }
+  66.66%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-3 {
+  0%, 66.66% { left: -100%; opacity: 0; }
+  74.96%, 91.62% { left: 25%; opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+@media(max-width: 1080px){
+  .item-1,.item-2,.item-3{
+    display: none;
+    animation-name: none;
+  }
 }

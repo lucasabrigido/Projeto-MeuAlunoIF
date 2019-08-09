@@ -28,21 +28,20 @@ async function login(username, password, next) {
 	
 	try {
 		const checkAcademico = await page.evaluate(() => {
+			var foto_perfil, nome, nome_perfil;
 			const query = document.querySelector('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr > td > div')
 			if (query.children[0].innerText == 'Acesso Negado') {
-				checkAcademico = 'False'
+				checkAcademico = false
 				
 			} else {
-				checkAcademico = 'True'
+				checkAcademico = true
+				foto_perfil = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td:nth-child(1) > img").src
+				nome = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td.titulo").innerHTML.split(",")
+				nome_perfil = nome[1].split("!")[0]
 			}
-
-			const foto_perfil = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td:nth-child(1) > img").src
-			const nome = document.querySelector("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td.titulo").innerHTML.split(",")
-			const nome_perfil = nome[1].split("!")[0]
 			return [checkAcademico,foto_perfil,nome_perfil]
 		})
-		if (checkAcademico[0] == 'True') {
-			checkAcademico[0] = true
+		if (checkAcademico[0] == true) {
 			actions.browserWSEndpoint = browser.wsEndpoint();
 			browser.disconnect();
 			console.log("Logado")
@@ -50,9 +49,10 @@ async function login(username, password, next) {
 		} else {
 			console.log("Usuario não existe dentro do sistema qAcademico")
 			await browser.close();
+			return [false,false,false]
 		}
 	}catch(err){
-		next(err);
+		console.log(err)
 	}
 	
 

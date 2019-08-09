@@ -11,6 +11,9 @@
 </head>
 
 <body>
+    <p class="item-1">Basta utilizar sua matricula e senha do <span style="color: green;" >Qacademico</span></p>
+    <p class="item-2">A sua <span style="color: red;" >primeira</span> sessão, pode demorar um pouco para carregar!</p>
+    <p class="item-3">Cada sessão tem uma duração de  <span style="color: gold;" >5 minutos</span>!</p>
     <div class="login-page">
         <div class="form">
             <h1>Login</h1>
@@ -26,29 +29,40 @@
 </body>
 
 <script>
-document.usuarioForm.onsubmit = async e => {
-    e.preventDefault()
-    const form = e.target
-    const data = new FormData(form)
-    const options = {
-        method: form.method,
-        body: new URLSearchParams(data)
-    }
-fetch('/fristlogin', options)
-    .then(resp => resp.json())
-    .then(res => {
-        if(res[0] === true){
-            const id_Matricula = res[1]
-            window.location.href = `/aluno/${id_Matricula}`
-            /**fetch(`/${res[1]}`, {method: "get"})
-                .then(res=>{
-                    window.location.href = `/${id_Matricula}`
-            })**/
-        }else{
-            console.log("algo deu errado")
+    var controle = false
+    document.usuarioForm.onsubmit = async e => {
+        e.preventDefault()
+        console.log("entrou")
+        if (controle===false){
+            console.log("clickou")
+            controle = true;
+            e.preventDefault()
+            const form = e.target
+            const data = new FormData(form)
+            const options = {
+                method: form.method,
+                body: new URLSearchParams(data)
+            }
+            fetch('/fristlogin', options)
+                .then(resp => resp.json())
+                .then(res => {
+                    if(res[0] === true){
+                        const id_Matricula = res[1]
+                        window.location.href = `/aluno/${id_Matricula}`
+                        /**fetch(`/${res[1]}`, {method: "get"})
+                            .then(res=>{
+                                window.location.href = `/${id_Matricula}`
+                        })**/
+                    }else{
+                        controle = false
+                        console.log("algo deu errado")
+                    }
+                })
+
+        } else {
+        console.log("ja clickou")
         }
-    })
-}
+    }
 </script>
 
 </html>

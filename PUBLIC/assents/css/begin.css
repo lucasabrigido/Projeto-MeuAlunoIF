@@ -170,43 +170,6 @@ body ul{
 	overflow: hidden;
 }
 
-@media(max-width: 480px){
-	.menu-toggle{display: block;}
-	.inicio-head{display: none;}
-	.fim-head span {display: none;}
-	.head{
-		grid-template-columns: 1fr;
-		box-shadow: none;
-		border-bottom: 2px solid black;
-		grid-template-areas: 
-		'fim-head'
-	 }
-	 body{
-	 	grid-template-columns: 1fr;
-	 	grid-template-rows: 0.7fr 5.542fr;
-	 	grid-template-areas: 
-	 	'header-principal'
-	 	'conteudo-principal'
-	 }
-	 .fim-head{
-	 	justify-content: space-between;
-	 }
-	 .side{display: none;}
-	 .fim-head img {border-radius: 0;}
-     .bot{
-     	display:flex;
-     	color: #23997C;
-     }
-     .top{
-     	display:none;
-     	color: #23997C;
-     }
-
-	/*quando tiver a grid total apagar a primeira coluna da linha 1 com grid-template-area*/
-
-}
-
-
 
 .conteudo-principal{
 	grid-area: conteudo-principal;
@@ -282,4 +245,97 @@ body ul{
   margin: none;
   padding: 0;
   background: rgba(0, 0, 0, 0.0);
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  background-color: #23997c;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #fff;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+@media(max-width: 900px){
+	.conteudo-principal{
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr;
+	}
+}
+@media(max-width: 600px){
+	.conteudo-principal{
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1fr 1fr;
+	}
+}
+
+@media(max-width: 480px){
+	.menu-toggle{display: block;}
+	.inicio-head{display: none;}
+	.fim-head span {display: none;}
+	.head{
+		grid-template-columns: 1fr;
+		box-shadow: none;
+		border-bottom: 2px solid black;
+		grid-template-areas: 
+		'fim-head'
+	 }
+	 body{
+	 	grid-template-columns: 1fr;
+	 	grid-template-rows: 0.7fr 5.542fr;
+	 	grid-template-areas: 
+	 	'header-principal'
+	 	'conteudo-principal'
+	 	'conteudo-principal'
+	 }
+	 .fim-head{
+	 	justify-content: space-between;
+	 }
+	 .side{display: none;}
+	 .fim-head img {border-radius: 0;}
+     .bot{
+     	display:flex;
+     	color: #23997C;
+     }
+     .top{
+     	display:none;
+     	color: #23997C;
+     }
+     .conteudo-principal{
+     	grid-template-columns: 0.5fr;
+     }
+
+	/*quando tiver a grid total apagar a primeira coluna da linha 1 com grid-template-area*/
+
 }

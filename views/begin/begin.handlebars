@@ -24,7 +24,7 @@
 				<p>Logout</p>
 			</div>
 			<button class="menu-toggle">
-				<i class="material-icons menu-icon">
+				<i  onclick="openNav()" class="material-icons menu-icon">
 					menu
 				</i>
 			</button>
@@ -69,36 +69,30 @@
 	</div>
 
 	<div class="conteudo-principal">
-		<table class="tabel">
-			<thead>
-				<tr>
-					<th>Segunda</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>07:40</td>
-					<td>POO</td>
-				</tr>
-				<tr>
-					<td>09:20</td>
-					<td>POO</td>
-				</tr>
-				<tr>
-					<td>10:40</td>
-					<td>Arquitetura</td>
-				</tr>
-				<tr>
-					<td>11:10</td>
-					<td>Arquitetura</td>
-				</tr>
-			</tbody>
-		</table>
+		
+		<div id="mySidenav" class="sidenav">
+			  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			  <a class="botao" id="boletim" href="#">Boletim</a>
+			  <a class="botao" id="diario" href="#">Diario</a>
+			  <a class="botao" id="horario" href="#">Horario</a>
+			  <a class="botao" id="material" href="#">Material</a>
+			  <a class="botao" id="matriz" href="#">Matriz</a>
+			  <a class="botao" id="calendario" href="#">Calendário</a>
+		</div>
 
 		<script>
 			const data = {}
 			data["id_Matricula"] = document.URL.slice(7).split("/")[2]
 			console.log(data)
+
+
+			function openNav() {
+			  document.getElementById("mySidenav").style.width = "250px";
+			}
+
+			function closeNav() {
+			  document.getElementById("mySidenav").style.width = "0";
+			}
 		</script>
 
 </html>

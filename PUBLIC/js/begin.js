@@ -4,13 +4,12 @@ window.onload = function () {
 		.then(res => res.json())
 		.then(resp => {
 			document.querySelector('.user').innerHTML = resp.nome_perfil
-			document.querySelectorAll('#img')["0"].srcset = resp.foto_perfil
-			document.querySelectorAll('#img')["1"].src = resp.foto_perfil
+			//document.querySelectorAll('#img')["0"].srcset = resp.foto_perfil
+			//document.querySelectorAll('#img')["1"].src = resp.foto_perfil
 		})
 
-	const buttonHorario = document.querySelectorAll("#horario")['0']
-	console.log(buttonHorario)
-	buttonHorario.onclick = function (e) {
+	document.querySelectorAll('#horario').forEach(e=>{
+		e.onclick = function(e){
 		e.preventDefault()
 		const url = `/horario/${data.id_Matricula}` //esse id tem que vir da pag login/backend e colocar em templant string
 		fetch(url, { method: "GET" })
@@ -18,8 +17,9 @@ window.onload = function () {
 			.then(res => {
 				const conteudoPrincipal = document.querySelector('.conteudo-principal')
 				const tabelPrimeira = document.querySelectorAll(".tabel")
-				tabelPrimeira.forEach(e => {
-					conteudoPrincipal.removeChild(e)
+				tabelPrimeira.forEach((e,index) => {
+					if(index==0) console.log(index)
+					else conteudoPrincipal.removeChild(e)
 				})
 				res = Array.from(res)
 				console.log(res)
@@ -53,7 +53,8 @@ window.onload = function () {
 				})
 
 			})
-	}
+		}
+	})
 
 	const buttonMaterial = document.querySelectorAll("#material")['0']
 	console.log(buttonMaterial)
