@@ -1,72 +1,75 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="stylesheet" href="./assents/css/begin.css">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="../assents/css/begin.css">
 	<meta name="viewport" content="width=device-width">
 	<link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
-	<script type="text/javascript" src="./js/begin.js"></script>
+	<script type="text/javascript" src="../js/begin.js"></script>
 </head>
 
-<body >
-	<header class="head">	
+<body>
+	<header class="head">
 		<div class="meio-head"></div>
 
 		<div class="fim-head">
-			<div class="sino top">
-				<i class="fa fa-bell" style="font-size:28px;color:inherit;"></i>
-			</div>
+			
 			<picture>
-                 <span>&#9660</span>
-				<source srcset="" id="img" media = "(min-width: 481px)">
-				<img src="./assents/images/logo-if2.png" alt="logo">
+				<span>&#9660</span>
+				<source srcset="" id="img" media="(min-width: 481px)">
+				<img src="../assents/images/logo-if2.png" alt="logo">
 			</picture>
-
-			<div class="sino bot">
-				<i class="fa fa-bell" style="font-size:28px;color:inherit;"></i>
-			</div>	
-	
+			<div class="top logout">
+				<p>Logout</p>
+			</div>
 			<button class="menu-toggle">
-            	<i class="fa fa-lg fa-bars"></i>
-        	</button>
+				<i class="material-icons menu-icon">
+					menu
+				</i>
+			</button>
+
 		</div>
-	</header>	
+	</header>
 
 	<div class="side">
 
 		<div class="inicio-head">
-			<img class="logo-if" src="./assents/images/logo-if.png">
+			<img class="logo-if" src="../assents/images/logo-if.png">
 		</div>
-		<div class="div-perfil" >
+		<div class="div-perfil">
 			<img class="imagem-perfil" id="img" src="">
 		</div>
-		
+
 
 		<h3 class="user"> </h3>
+		<hr class="barra" />
 		<nav class="menu">
-            <ul style="list-style-type: none;">
-                <li>
-                    <a class="botao" href="./index.html">Diario</a>
+			<ul style="list-style-type: none;">
+				<li>
+                    <a class="botao" id="boletim" href="#">Boletim</a>
                 </li>
                 <li>
-                    <a class="botao" id="horario" href="./index.html">Horario</a>
+                    <a class="botao" id="diario" href="#">Diario</a>
                 </li>
                 <li>
-                    <a href="./index.html" class="botao">Material</a>
+                    <a class="botao" id="horario" href="#">Horario</a>
                 </li>
                 <li>
-                    <a href="./index.html" class="botao">Matriz</a>
+                    <a class="botao" id="material" href="#">Material</a>
                 </li>
                 <li>
-                	<a href="./index.html" class="botao">Calendário</a>
+                    <a class="botao" id="matriz" href="#">Matriz</a>
                 </li>
-            </ul>
-        </nav>		
+                <li>
+                	<a class="botao" id="calendario" href="#">Calendário</a>
+                </li>
+			</ul>
+		</nav>
 	</div>
 
 	<div class="conteudo-principal">
-		<table class="tabel" >
+		<table class="tabel">
 			<thead>
 				<tr>
 					<th>Segunda</th>
@@ -92,21 +95,10 @@
 			</tbody>
 		</table>
 
-<script>
-//var query = location.search.slice(1);
-//var partes = query.split('&');
-	//var data = {};
-	//partes.forEach(function (parte) {
-	//    var chaveValor = parte.split('=');
-	//    var chave = chaveValor[0];
-	  //  var valor = chaveValor[1];
-	////    data[chave] = valor;
-	//});
-const data = {}
-data["id_Matricula"] = document.URL.slice(7).split("/")[1]
-console.log(data)
-
-</script>
+		<script>
+			const data = {}
+			data["id_Matricula"] = document.URL.slice(7).split("/")[2]
+			console.log(data)
+		</script>
 
 </html>
-

@@ -1,5 +1,6 @@
 const porta = 3003
 const express = require('express')
+var jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const app = express()
 const firebase = require('firebase');
@@ -47,6 +48,29 @@ function descriptografar(senha) {
     return decipher.final(DADOS_CRIPTOGRAFAR.codificacao);
 };
 
+function verifyJWT(req, res, next){
+    const id_Matricula = req.params.id
+    console.log("akiii o", id_Matricula)
+    firebase.database().ref(`Alunos/${id_Matricula}`).once("value")
+        .then(snapshot=>{
+            var token = snapshot.child("auth").val()
+            console.log(token)
+            if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+            jwt.verify(token, "batata", function(err, decoded) {
+            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+             // se tudo estiver ok, salva no request para uso posterior
+                //req.userId = decoded.id;
+                req.userId = id_Matricula
+                next();
+            });
+        })
+}
+
+app.get('favicon.ico',(req,res,next)=>{
+    console.log("favi")
+    res.send()
+})
+
 app.get('/',(req,res,next)=>{
 	res.render("index/index")
 })
@@ -56,18 +80,21 @@ app.post('/fristlogin',(req, res, next)=> {
     const username = req.body.username;
     const password =  criptografar(req.body.password)
     var soma = 0;
+    var token = "null"
     firebase.database().ref('Alunos').once("value")
         .then(snapshot=>{
-            if(snapshot.hasChild(username)===true){
-            	res.send([true, criptografar(username)])
+            if(snapshot.hasChild(criptografar(username))===true){
+            	//res.send([true, criptografar(username)])
                 soma++;
-            	console.log("deve ter enviado")
+                const id = username; //esse id viria do banco de dados
+                token = jwt.sign({ id }, "batata", {
+                    expiresIn: 300 // expires in 5min
+                });
+                //res.status(200).send({ auth: true, token: token });
+                res.send([true, criptografar(username)])
+                firebase.database().ref(`Alunos/${criptografar(username)}/auth`).set(token)
             }
         })
-    //query.execQuery(`INSERT INTO User(login, Password) VALUES('${User.username}','${User.password}')`);
-
-    //aqui vamos validar se o usuario existe no qacademico, para depois ver se ele existe no banco firebase
-    console.log("senha", password, username)
     puppeteer.login(username, descriptografar(password), next)
         .then(resp=>{
             if(resp[0] === true){
@@ -75,11 +102,21 @@ app.post('/fristlogin',(req, res, next)=> {
                     .then(function(values) {
                         aluno = new classe.Aluno(values[0],values[1],values[2],values[3],values[4],values[5])
                         aluno.info = {pass: password, id_Matricula: username, foto_perfil: resp[1], nome_perfil: resp[2]}
+                        aluno.auth = soma == 1 ? token : "null" 
                         return aluno
                     }).then(resp=>{
-                        firebase.database().ref("Alunos").child(`${username}`).set(resp)
+                        firebase.database().ref("Alunos").child(`${criptografar(username)}`).set(resp)
                         //console.log("deu certo")
-                        soma < 1 ? res.send([true,criptografar(username)]) : soma = 0; //true
+                        if(soma<1){
+                            soma = 0
+                            const id = username; //esse id viria do banco de dados
+                            token = jwt.sign({ id }, "batata", {
+                                expiresIn: 300 // expires in 5min
+                            });
+                            //res.status(200).send({ auth: true, token: token });
+                            firebase.database().ref(`Alunos/${criptografar(username)}/auth`).set(token)
+                            res.send([true, criptografar(username)])
+                        }
                     })
             }
             else{
@@ -88,8 +125,8 @@ app.post('/fristlogin',(req, res, next)=> {
         })
 })
 
-app.get('/:id',(req,res,next)=>{
-	const id_Matricula = descriptografar(req.params.id)
+app.get('/aluno/:id',verifyJWT,(req,res,next)=>{
+	const id_Matricula = req.userId
 	console.log("begin")
     firebase.database().ref('Alunos').once("value")
         .then(snapshot=>{
@@ -100,23 +137,51 @@ app.get('/:id',(req,res,next)=>{
         })    
 })
 
-app.get('/horario/:id',(req,res,next)=>{
-    const id_Matricula = descriptografar(req.params.id)
-    firebase.database().ref(`Alunos/${id_Matricula}/horarioFinal`).once("value") //firebase.database().ref(`Alunos/${id}/horarioFinal`).once("value")
+app.get('/horario/:id', verifyJWT, (req,res,next)=>{
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/horarioFinal`).once("value") 
         .then(snap=>{
             res.json(snap.val())
         })
-    firebase.database().ref(`Alunos/${id_Matricula}`).once("value")
-        .then(snap=>{
-            puppeteer.login(id_Matricula,descriptografar((snap.child('info').val()).pass), next)
-                .then(resp=>{
-                    if(resp === true){
-                       puppeteer.personalSchedule(res) 
-                        .then(resp=>{
-                            firebase.database().ref(`Alunos/${id_Matricula}/horarioFinal`).update(resp)
-                        })
-                    }
-                })
+})
+
+app.get('/diario/:id', verifyJWT, (req, res, next) => {
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/Diario`).once("value") 
+        .then(snap => {
+            res.json(snap.val())
+        })
+})
+
+app.get('/material/:id', verifyJWT, (req, res, next) => {
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/material/`).once("value") 
+        .then(snap => {
+            res.json(snap.val())
+        })
+})
+
+app.get('/Calen_Academic/semestre/meses/:id', verifyJWT, (req, res, next) => {
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/Calen_Academic/semestre/meses/`).once("value") 
+        .then(snap => {
+            res.json(snap.val())
+        })
+})
+
+app.get('/matrizCurricular/dentro/:id', verifyJWT, (req, res, next) => {
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/matrizCurricular/dentro/`).once("value") 
+        .then(snap => {
+            res.json(snap.val())
+        })
+})
+
+app.get('/myReportCard/:id', verifyJWT, (req, res, next) => {
+    const id_Matricula = req.userId
+    firebase.database().ref(`Alunos/${id_Matricula}/myReportCard/`).once("value") 
+        .then(snap => {
+            res.json(snap.val())
         })
 })
 
@@ -128,6 +193,10 @@ app.get('/teste/:id', (req,res,next)=>{
         })
 
 })
+
+app.get('/logout', function(req, res) {
+  res.status(200).send({ auth: false, token: null });
+});
 
 
 

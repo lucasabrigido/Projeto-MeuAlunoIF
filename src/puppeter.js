@@ -163,8 +163,8 @@ async function myDiary(res) {
 
 
 
-		let d1 = new classe.Diario(nome_cadeira, nome_prof, cod_cadeira, carga_horaria, aulas_ministradas, percent_aulas_presen_ministradas, faltas, N1, N2, Media);
-		vetorDiario.push(d1);
+		//let d1 = new classe.Diario(nome_cadeira, nome_prof, cod_cadeira, carga_horaria, aulas_ministradas, percent_aulas_presen_ministradas, faltas, N1, N2, Media);
+		//vetorDiario.push(d1);
 	console.log("vetorDiario ok")
 	return data
 }
