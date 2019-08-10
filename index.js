@@ -90,6 +90,7 @@ app.post('/fristlogin',(req, res, next)=> {
                 firebase.database().ref(`Alunos/${criptografar(username)}/${semestre}/info/pass`).once("value")
                     .then(snap=>{
                         if(snap.val() == password){
+                            console.log("if")
                             soma++;
                             const id = username; //esse id viria do banco de dados
                             token = jwt.sign({ id }, "batata", {
@@ -99,6 +100,10 @@ app.post('/fristlogin',(req, res, next)=> {
                             console.log("entrou no if")
                             res.send([true, criptografar(username)])
                             firebase.database().ref(`Alunos/${criptografar(username)}/auth`).set(token)
+                        } else {
+                            console.log("else")
+                            soma++;
+                            res.send([false,false])
                         }
                     })
             	//res.send([true, criptografar(username)])
