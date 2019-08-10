@@ -1,0 +1,45 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+@font-face {
+  font-family: SFpro;
+  src: url("../fonts/SFProText-Medium.ttf");
+}
+body {
+  background: url(../images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+* {
+  font-family: SFpro;
+}
+h1,
+h2 {
+  color: #707070;
+  text-align: center;
+}
+h1 {
+  font-size: 70px;
+  margin: 0;
+}
+div {
+  text-align: center;
+  padding: 12% 0 0 0;
+  width: 500px;
+  margin: auto;
+}
+button {
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+
+  background: linear-gradient(to bottom right, #00b894, #60d3bd);
+  border: 0;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: linear-gradient(to bottom right, #2ba281, #60d3bd);
+}

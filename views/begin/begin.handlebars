@@ -17,11 +17,11 @@
 			
 			<picture>
 				<span>&#9660</span>
-				<source srcset="" id="img" media="(min-width: 481px)">
+				<source srcset="../assents/images/avatar.png" id="img" media="(min-width: 481px)">
 				<img src="../assents/images/logo-if2.png" alt="logo">
 			</picture>
 			<div class="top logout">
-				<p>Logout</p>
+				<a  onclick="logout()" href="../">Logout</a>
 			</div>
 			<button class="menu-toggle">
 				<i  onclick="openNav()" class="material-icons menu-icon">
@@ -38,7 +38,7 @@
 			<img class="logo-if" src="../assents/images/logo-if.png">
 		</div>
 		<div class="div-perfil">
-			<img class="imagem-perfil" id="img" src="">
+			<img class="imagem-perfil" id="img" src="../assents/images/avatar.png">
 		</div>
 
 
@@ -82,6 +82,7 @@
 
 		<script>
 			const data = {}
+			const semestre = "semestre_2019_1"
 			data["id_Matricula"] = document.URL.slice(7).split("/")[2]
 			console.log(data)
 
@@ -92,6 +93,9 @@
 
 			function closeNav() {
 			  document.getElementById("mySidenav").style.width = "0";
+			}
+			function logout() {
+				fetch(`/logout/${data.id_Matricula}`)
 			}
 		</script>
 

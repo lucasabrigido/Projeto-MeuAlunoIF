@@ -33,6 +33,7 @@ const DADOS_CRIPTOGRAFAR = {
     tipo : "hex"
 };
 
+
 const crypto = require("crypto");
 const cipher = crypto.createCipher(DADOS_CRIPTOGRAFAR.algoritmo, DADOS_CRIPTOGRAFAR.segredo);
 
@@ -48,6 +49,8 @@ function descriptografar(senha) {
     return decipher.final(DADOS_CRIPTOGRAFAR.codificacao);
 };
 
+const semestre = "semestre_2019_1"
+
 function verifyJWT(req, res, next){
     const id_Matricula = req.params.id
     console.log("akiii o", id_Matricula)
@@ -55,9 +58,9 @@ function verifyJWT(req, res, next){
         .then(snapshot=>{
             var token = snapshot.child("auth").val()
             console.log(token)
-            if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+            if (!token) return res.render("end/end")
             jwt.verify(token, "batata", function(err, decoded) {
-            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            if (err) return res.render("end/end")
              // se tudo estiver ok, salva no request para uso posterior
                 //req.userId = decoded.id;
                 req.userId = id_Matricula
@@ -84,15 +87,21 @@ app.post('/fristlogin',(req, res, next)=> {
     firebase.database().ref('Alunos').once("value")
         .then(snapshot=>{
             if(snapshot.hasChild(criptografar(username))===true){
+                firebase.database().ref(`Alunos/${criptografar(username)}/${semestre}/info/pass`).once("value")
+                    .then(snap=>{
+                        if(snap.val() == password){
+                            soma++;
+                            const id = username; //esse id viria do banco de dados
+                            token = jwt.sign({ id }, "batata", {
+                                expiresIn: 300 // expires in 5min
+                            });
+                            //res.status(200).send({ auth: true, token: token });
+                            console.log("entrou no if")
+                            res.send([true, criptografar(username)])
+                            firebase.database().ref(`Alunos/${criptografar(username)}/auth`).set(token)
+                        }
+                    })
             	//res.send([true, criptografar(username)])
-                soma++;
-                const id = username; //esse id viria do banco de dados
-                token = jwt.sign({ id }, "batata", {
-                    expiresIn: 300 // expires in 5min
-                });
-                //res.status(200).send({ auth: true, token: token });
-                res.send([true, criptografar(username)])
-                firebase.database().ref(`Alunos/${criptografar(username)}/auth`).set(token)
             }
         })
     puppeteer.login(username, descriptografar(password), next)
@@ -102,13 +111,15 @@ app.post('/fristlogin',(req, res, next)=> {
                     .then(function(values) {
                         aluno = new classe.Aluno(values[0],values[1],values[2],values[3],values[4],values[5])
                         aluno.info = {pass: password, id_Matricula: username, foto_perfil: resp[1], nome_perfil: resp[2]}
-                        aluno.auth = soma == 1 ? token : "null" 
                         return aluno
                     }).then(resp=>{
-                        firebase.database().ref("Alunos").child(`${criptografar(username)}`).set(resp)
+                        const respFinal = {}
+                        respFinal[`${semestre}`] = resp
+                        respFinal.auth = soma == 1 ? token : "null" 
+                        firebase.database().ref("Alunos").child(`${criptografar(username)}`).set(respFinal)
                         //console.log("deu certo")
                         if(soma<1){
-                            puppeteer.salvarFoto(username, password, criptografar(username))
+                            //puppeteer.salvarFoto(username, password, criptografar(username))
                             soma = 0
                             const id = username; //esse id viria do banco de dados
                             token = jwt.sign({ id }, "batata", {
@@ -140,7 +151,7 @@ app.get('/aluno/:id',verifyJWT,(req,res,next)=>{
 
 app.get('/horario/:id', verifyJWT, (req,res,next)=>{
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/horarioFinal`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/horarioFinal`).once("value") 
         .then(snap=>{
             res.json(snap.val())
         })
@@ -148,7 +159,7 @@ app.get('/horario/:id', verifyJWT, (req,res,next)=>{
 
 app.get('/diario/:id', verifyJWT, (req, res, next) => {
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/Diario`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/Diario`).once("value") 
         .then(snap => {
             res.json(snap.val())
         })
@@ -156,7 +167,7 @@ app.get('/diario/:id', verifyJWT, (req, res, next) => {
 
 app.get('/material/:id', verifyJWT, (req, res, next) => {
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/material/`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/material`).once("value") 
         .then(snap => {
             res.json(snap.val())
         })
@@ -164,15 +175,15 @@ app.get('/material/:id', verifyJWT, (req, res, next) => {
 
 app.get('/Calen_Academic/semestre/meses/:id', verifyJWT, (req, res, next) => {
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/Calen_Academic/semestre/meses/`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/Calen_Academic/semestre/meses`).once("value") 
         .then(snap => {
             res.json(snap.val())
         })
 })
 
-app.get('/matrizCurricular/dentro/:id', verifyJWT, (req, res, next) => {
+app.get('/matrizCurricular/:id', verifyJWT, (req, res, next) => {
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/matrizCurricular/dentro/`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/matrizCurricular`).once("value") 
         .then(snap => {
             res.json(snap.val())
         })
@@ -180,7 +191,7 @@ app.get('/matrizCurricular/dentro/:id', verifyJWT, (req, res, next) => {
 
 app.get('/myReportCard/:id', verifyJWT, (req, res, next) => {
     const id_Matricula = req.userId
-    firebase.database().ref(`Alunos/${id_Matricula}/myReportCard/`).once("value") 
+    firebase.database().ref(`Alunos/${id_Matricula}/${semestre}/myReportCard`).once("value") 
         .then(snap => {
             res.json(snap.val())
         })
@@ -195,9 +206,29 @@ app.get('/teste/:id', (req,res,next)=>{
 
 })
 
-app.get('/logout', function(req, res) {
-  res.status(200).send({ auth: false, token: null });
+app.get('/logout/:id', function(req, res) {
+    firebase.database().ref(`Alunos/${req.params.id}/auth`).set("null")
+  //res.status(200).send({ auth: false, token: null });
+
 });
+
+app.get('/:id',(req,res,next)=>{
+    res.render("end/end")
+})
+
+app.get('/:id/:id',(req,res,next)=>{
+    res.render("end/end")
+})
+
+app.get('/:id/:id/:id',(req,res,next)=>{
+    res.render("end/end")
+})
+
+app.get('/:id/:id/:id/:id',(req,res,next)=>{
+    res.render("end/end")
+})
+
+
 
 
 

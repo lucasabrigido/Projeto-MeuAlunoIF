@@ -29,5 +29,7 @@ async function salvarFoto (username,password, user){
     });
 
 }
+//res.status(401).send({ auth: false, message: 'No token provided.' });
+ //res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
 salvarFoto("20181045050068","132783")
 firebase.storage().ref('images/'+"20181045050068").put("./20181045050068.png")

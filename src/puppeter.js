@@ -21,9 +21,26 @@ async function salvarFoto (username,password, user){
 }
 
 async function login(username, password, next) {
+	/**var verificador = false
+
+	while(verificador === false){
+		try{
+			const browser = await puppeteer.launch({
+			headless: true
+			});
+			verificador == true;
+		} catch(e){
+			verificador = false;
+		}
+	}**/
+	
 	const browser = await puppeteer.launch({
-		headless: true
+  		args: [
+    		'--no-sandbox',
+   			'--disable-setuid-sandbox',
+  		],
 	});
+
 
 	const page = await browser.newPage();
 	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded" });
