@@ -6,6 +6,20 @@ const classe = require('./classe.js')
 const actions = {
 }
 
+
+async function salvarFoto (username,password, user){
+	let browserWSEndpoint = actions.browserWSEndpoint;
+	const browser2 = await puppeteer.connect({ browserWSEndpoint })
+	const page = await browser2.newPage();
+	  await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded" });
+	  await page.waitForNavigation();
+	    await page.click('#btnOK');
+	    await page.screenshot({path: `${user}.png`,
+	        clip: {x: 45, y:155, width: 104, height: 140}
+	    });
+
+}
+
 async function login(username, password, next) {
 	const browser = await puppeteer.launch({
 		headless: true
@@ -40,6 +54,7 @@ async function login(username, password, next) {
 				nome_perfil = nome[1].split("!")[0]
 			}
 			return [checkAcademico,foto_perfil,nome_perfil]
+			salvarFoto(foto_perfil)
 		})
 		if (checkAcademico[0] == true) {
 			actions.browserWSEndpoint = browser.wsEndpoint();
@@ -419,4 +434,4 @@ async function myMatriz(res) {
 	return matrizCurricular
 }
 
-module.exports = { login, personalSchedule, myDiary, myReportCard, calendarAcademy, myMaterial, myMatriz };
+module.exports = { login, personalSchedule, myDiary, myReportCard, calendarAcademy, myMaterial, myMatriz, salvarFoto};

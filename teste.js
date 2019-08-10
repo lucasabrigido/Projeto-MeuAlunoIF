@@ -1,76 +1,33 @@
-const porta = 3003
-var jwt = require('jsonwebtoken');
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-app.use(express.static('./PUBLIC'))
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+const puppeteer = require('puppeteer')
+//const classe = require('./classe.js')
 
+//const a = new classe.HorarioIndividual();
 
-
-
-
-app.post('/login', (req, res, next) => {
-  if(req.body.user === 'luiz' && req.body.pwd === '123'){
-    //auth ok
-    const id = 1; //esse id viria do banco de dados
-    var token = jwt.sign({ id }, "batata", {
-      expiresIn: 300 // expires in 5min
-    });
-    res.status(200).send({ auth: true, token: token });
-  }
-  
-  res.status(500).send('Login inválido!');
-})
-
-
-
-//authentication
-app.post('/login', (req, res, next) => {
-  if(req.body.user === 'luiz' && req.body.pwd === '123'){
-    //auth ok
-    const id = 1; //esse id viria do banco de dados
-    var token = jwt.sign({ id }, "batata", {
-      expiresIn: 300 // expires in 5min
-    });
-    res.status(200).send({ auth: true, token: token });
-  }
-  
-  res.status(500).send('Login inválido!');
-})
-
-
-
-app.get('/logout', function(req, res) {
-  res.status(200).send({ auth: false, token: null });
-});
-
-
-function verifyJWT(req, res, next){
-  var token = req.headers['x-access-token'];
-  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-  
-  jwt.verify(token, "batata", function(err, decoded) {
-    if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-    
-    // se tudo estiver ok, salva no request para uso posterior
-    req.userId = decoded.id;
-    console.log(req.userId)
-    //next();
-  });
+const actions = {
 }
 
-// Proxy request
-app.get('/users', verifyJWT, (req, res, next) => {
-  userServiceProxy(req, res, next);
-  console.log("eu entrei")
-})
 
-app.get('/products', verifyJWT, (req, res, next) => {
-  productsServiceProxy(req, res, next);
-})
+async function salvarFoto (username,password, user){
+  const browser = await puppeteer.launch({
+    headless: true
+  });
 
-app.listen(porta,()=>{
-    console.log(`Server Test is running on port ${porta}.`)
-})
+  const page = await browser.newPage();
+  await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded" });
+  const USERNAME_SELECTOR = '#txtLogin';
+  const PASSWORD_SELECTOR = '#txtSenha';
+  const BUTTON_SELECTOR = '#btnOk';
+  await page.click(USERNAME_SELECTOR);
+  await page.keyboard.type(username);
+  await page.click(PASSWORD_SELECTOR);
+  await page.keyboard.type(password);
+  await page.click(BUTTON_SELECTOR);
+  await page.waitForNavigation();
+    await page.click('#btnOK');
+    await page.screenshot({path: `${user}.png`,
+        clip: {x: 45, y:155, width: 104, height: 140}
+    });
+
+}
+salvarFoto("20181045050068","132783")
+firebase.storage().ref('images/'+"20181045050068").put("./20181045050068.png")

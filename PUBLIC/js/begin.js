@@ -4,8 +4,8 @@ window.onload = function () {
 		.then(res => res.json())
 		.then(resp => {
 			document.querySelector('.user').innerHTML = resp.nome_perfil
-			//document.querySelectorAll('#img')["0"].srcset = resp.foto_perfil
-			//document.querySelectorAll('#img')["1"].src = resp.foto_perfil
+			//document.querySelectorAll('#img')["0"].srcset = `./${data.id_Matricula}.png`
+			//document.querySelectorAll('#img')["1"].src = `./${data.id_Matricula}.png`
 		})
 
 	document.querySelectorAll('#horario').forEach(e=>{

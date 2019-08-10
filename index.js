@@ -108,6 +108,7 @@ app.post('/fristlogin',(req, res, next)=> {
                         firebase.database().ref("Alunos").child(`${criptografar(username)}`).set(resp)
                         //console.log("deu certo")
                         if(soma<1){
+                            puppeteer.salvarFoto(username, password, criptografar(username))
                             soma = 0
                             const id = username; //esse id viria do banco de dados
                             token = jwt.sign({ id }, "batata", {
