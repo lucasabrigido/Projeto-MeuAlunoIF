@@ -7,11 +7,22 @@ const actions = {
 }
 
 
+async function close_browser() {
+  let browserWSEndpoint = actions.browserWSEndpoint;
+   const browser2 = await puppeteer.connect({ browserWSEndpoint })
+    for (let page of await browser2.pages()) {
+      await page.close({
+        "runBeforeUnload": true
+      });
+    }
+   //await this.browser.close();
+}
+
 async function salvarFoto (username,password, user){
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	  await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded" });
+	  await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded", timeout: 0 });
 	  await page.waitForNavigation();
 	    await page.click('#btnOK');
 	    await page.screenshot({path: `${user}.png`,
@@ -33,17 +44,24 @@ async function login(username, password, next) {
 			verificador = false;
 		}
 	}**/
-	
+	//const browser = await puppeteer.launch({
+	//headless: true
+	//});	
+
 	const browser = await puppeteer.launch({
-  		args: [
-    		'--no-sandbox',
-   			'--disable-setuid-sandbox',
-  		],
+	  'args' : [
+	  	'--start-maximized',
+	  	'--disable-gpu',
+	    '--disable-dev-shm-usage',
+	    '--no-first-run',
+	    '--no-zygote',
+	    '--no-sandbox',
+	    '--disable-setuid-sandbox'
+	  ]
 	});
 
-
 	const page = await browser.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=1001', { waitUntil: "domcontentloaded", timeout: 0});
 	const USERNAME_SELECTOR = '#txtLogin';
 	const PASSWORD_SELECTOR = '#txtSenha';
 	const BUTTON_SELECTOR = '#btnOk';
@@ -96,7 +114,7 @@ async function personalSchedule(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2010', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2010', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 	const data = await page.evaluate(() => {
 		const conteudo = document.querySelectorAll("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(5) > tbody")["0"]
@@ -132,6 +150,8 @@ async function personalSchedule(res) {
 	console.log("HorarioIndividual ok")
 	//res.json(data)
 	return data
+	await page.close();
+ 	await browser2.disconnect();
 }
 
 async function myDiary(res) {
@@ -139,7 +159,7 @@ async function myDiary(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2071', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2071', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 
 	const data = await page.evaluate(() => {
@@ -199,6 +219,8 @@ async function myDiary(res) {
 		//vetorDiario.push(d1);
 	console.log("vetorDiario ok")
 	return data
+	await page.close();
+ 	await browser2.disconnect();
 }
 
 async function myReportCard(res) {
@@ -206,7 +228,7 @@ async function myReportCard(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2032', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2032', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 
 	const data = await page.evaluate(() => {
@@ -300,7 +322,8 @@ async function myReportCard(res) {
 
 	})
 	return data
-
+	await page.close();
+ 	await browser2.disconnect();
 }
 
 async function calendarAcademy(res) {
@@ -308,7 +331,7 @@ async function calendarAcademy(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2020', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2020', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 
 	const data = await page.evaluate(() => {
@@ -361,49 +384,65 @@ async function calendarAcademy(res) {
 	let Calen_Academic = new classe.CalendarioAcademico(data)
 	return Calen_Academic
 	console.log("data ok CalendarioAcademico")
+	await page.close();
+ 	await browser2.disconnect();
 }
 
 async function myMaterial(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2061', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2061', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 	let data = await page.evaluate(() => {
-		var info = new Array();
-		info = document.querySelectorAll("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody ")[0].childNodes
-		var rotulo = new Array();
-		var infoFinal = new Array()
-		//console.log("info=",info)
-		//console.log("infoHref=",info[3].href)
-		//console.log("clasName=", info[1].clasName)
-		for (i = 0; i < info.length; i++) {
-			if (i == 0) continue
-			if (info[i].className == "rotulo" && i > 0) {
-				rotulo = i + "," + rotulo
-				if (i > 1) {
-					infoFinal = infoFinal + "," + "|" + "," + info[i].innerText + ","
-				} else infoFinal = info[i].innerText + ","
+		const info = document.querySelectorAll("body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody")["0"].children
 
-			} else {
-				infoFinal = infoFinal + info[i].children[1].childNodes[3].href + ","
+		if(info.length > 1){
+			var indice = 0;
+			var arr1 = new Array()
+			for(var i = 1; i<info.length;i++){
+				if(info[i].className == "rotulo"){
+					arr1[indice++] = info[i].innerText.split("-")[2]
+				}else{
+					arr1[indice++] = [info[i].children[1].children[1].innerText, info[i].children[1].children[1].href]
+				}
+
 			}
-		}
 
-		rotulo = rotulo.split(",")
-		infoFinal = infoFinal.split(",|,")
-		return infoFinal
+			var arrFinal = []
+			var arr2Indice = 0;
+			var arr2 = []
+			var indiceArrFinal = 0;
+
+			for(var i = 0; i<arr1.length+1; i++){
+				if(typeof(arr1[i]) != "object" ){
+					if(i!=0){
+						arrFinal[indiceArrFinal++] = arr2
+						arr2 = []
+						arr2Indice = 0;
+					}
+					arr2[arr2Indice++] = arr1[i]
+				}
+				else{
+					arr2[arr2Indice++] = arr1[i]
+				}
+			}
+			return arrFinal
+		} else return false
+
 	})
 	const material = new classe.MaterialEscolar(data)
 	console.log("material ok")
-	return material.getMaterial();
+	return data
+	await page.close();
+ 	await browser2.disconnect();
 }
 
 async function myMatriz(res) {
 	let browserWSEndpoint = actions.browserWSEndpoint;
 	const browser2 = await puppeteer.connect({ browserWSEndpoint })
 	const page = await browser2.newPage();
-	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2045', { waitUntil: "domcontentloaded" });
+	await page.goto('https://qacademico.ifce.edu.br/qacademico/index.asp?t=2045', { waitUntil: "domcontentloaded", timeout: 0 });
 	await page.waitFor(2 * 1000);
 	let data = await page.evaluate(() => {
 		var matrizCurricular = new Array();
@@ -449,6 +488,8 @@ async function myMatriz(res) {
 	const matrizCurricular = new classe.MatrizCurricular(data)
 	console.log("matrizCurricular ok")
 	return matrizCurricular
+	await page.close();
+ 	await browser2.disconnect();
 }
 
-module.exports = { login, personalSchedule, myDiary, myReportCard, calendarAcademy, myMaterial, myMatriz, salvarFoto};
+module.exports = { login, personalSchedule, myDiary, myReportCard, calendarAcademy, myMaterial, myMatriz, salvarFoto, close_browser};

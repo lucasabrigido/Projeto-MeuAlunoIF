@@ -19,51 +19,69 @@
             <h1>Login</h1>
             <form class="login-form" method="post" name="usuarioForm" >
                 <input type="text" name="username" placeholder="Id Aluno" />
+                <img  class="loading" src="./assents/images/loading.gif">
                 <input type="password" name="password" placeholder="Senha" />
                 <button>login</button>
-            </form>
-
+           </form>
         </div>
-
+    </div>
+    <div class="loading-fundo" >
     </div>
 </body>
 
 <script>
+
+	const fundo = document.querySelector('.loading-fundo')
+    const loading = document.querySelector('.loading')
     var controle = false
+
+
     document.usuarioForm.onsubmit = async e => {
         e.preventDefault()
         console.log("entrou")
         if (controle===false){
             console.log("clickou")
             controle = true;
-            e.preventDefault()
+            loading.style.display = "block"
+            fundo.style.display = "block"
             const form = e.target
             const data = new FormData(form)
             const options = {
                 method: form.method,
                 body: new URLSearchParams(data)
             }
-            fetch('/fristlogin', options)
-                .then(resp => resp.json())
-                .then(res => {
-                    if(res[0] === true){
-                        const id_Matricula = res[1]
-                        window.location.href = `/aluno/${id_Matricula}`
-                        /**fetch(`/${res[1]}`, {method: "get"})
-                            .then(res=>{
-                                window.location.href = `/${id_Matricula}`
-                        })**/
-                    }else{
-                        controle = false
-                        alert("Usuario ou Senha errados")
-                        console.log("algo deu errado")
-                    }
-                })
+
+            try{
+	            fetch('/fristlogin', options)
+	                .then(resp => resp.json())
+	                .then(res => {
+	                    if(res[0] === true){
+	                        const id_Matricula = res[1]
+	                        window.location.href = `/aluno/${id_Matricula}`
+	                        /**fetch(`/${res[1]}`, {method: "get"})
+	                            .then(res=>{
+	                                window.location.href = `/${id_Matricula}`
+	                        })**/
+	                    }else{
+	                        controle = false
+	                        loading.style.display = "none"
+	                        fundo.style.display = "none"
+	                        alert("Usuario ou Senha errados")
+	                        console.log("algo deu errado")
+	                    }
+	                })
+            } catch (e){
+            	controle = false
+            	loading.style.display = "none"
+	            fundo.style.display = "none"
+	            alert("Erro no servidor,tente mais tarde")
+            }
 
         } else {
         console.log("ja clickou")
         }
     }
+
 </script>
 
 </html>

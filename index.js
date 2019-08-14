@@ -1,4 +1,5 @@
 const porta = 3003
+//process.env.PORT
 const express = require('express')
 var jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser')
@@ -114,6 +115,7 @@ app.post('/fristlogin',(req, res, next)=> {
             if(resp[0] === true){
                  Promise.all([puppeteer.personalSchedule(),puppeteer.myDiary(),puppeteer.myReportCard(),puppeteer.calendarAcademy(),puppeteer.myMaterial(),puppeteer.myMatriz()])
                     .then(function(values) {
+                        puppeteer.close_browser()
                         aluno = new classe.Aluno(values[0],values[1],values[2],values[3],values[4],values[5])
                         aluno.info = {pass: password, id_Matricula: username, foto_perfil: resp[1], nome_perfil: resp[2]}
                         return aluno

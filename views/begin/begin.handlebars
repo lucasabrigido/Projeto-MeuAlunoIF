@@ -71,20 +71,27 @@
 	<div class="conteudo-principal">
 		
 		<div id="mySidenav" class="sidenav">
-			  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			  <a class="botao" id="boletim" href="#">Boletim</a>
-			  <a class="botao" id="diario" href="#">Diario</a>
-			  <a class="botao" id="horario" href="#">Horario</a>
-			  <a class="botao" id="material" href="#">Material</a>
-			  <a class="botao" id="matriz" href="#">Matriz</a>
-			  <a class="botao" id="calendario" href="#">Calendário</a>
+			  <a class="closebtn" onclick="closeNav()">&times;</a>
+			  <a class="botao" id="boletim" >Boletim</a>
+			  <a class="botao" id="diario" >Diario</a>
+			  <a class="botao" id="horario" >Horario</a>
+			  <a class="botao" id="material" >Material</a>
+			  <a class="botao" id="matriz" >Matriz</a>
+			  <a class="botao" id="calendario">Calendário</a>
+			  <a  onclick="logout()" href="../">Logout</a>
 		</div>
+	</div>
 
 		<script>
+
 			const data = {}
 			const semestre = "semestre_2019_1"
-			data["id_Matricula"] = document.URL.slice(7).split("/")[2]
+			data["id_Matricula"] = document.URL.slice(8).split("/")[2]
 			console.log(data)
+			var monName = new Array ("JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO" ,"AGOSTO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO")
+			var now = new Date()
+			const mesAtual = monName[now.getMonth()]
+			console.log(mesAtual)
 
 
 			function openNav() {
@@ -97,6 +104,49 @@
 			function logout() {
 				fetch(`/logout/${data.id_Matricula}`)
 			}
+
+				/**var inicialX;
+				document.getElementById("mySidenav").addEventListener('touchstart', function(e) {
+						var toqueobj = e.changedTouches[0];
+						inicialX = toqueobj.pageX;
+					}, false);
+					//
+					document.getElementById("mySidenav").addEventListener('touchmove', function(e){
+						e.preventDefault();
+					}, false)
+					//
+					document.getElementById("mySidenav").addEventListener('touchend', function(e){
+						var toqueobj = e.changedTouches[0];
+						var distancia = toqueobj.pageX - inicialX;
+						if(distancia < 0){
+							openNav()
+						}
+						if(distancia > 0){
+							closeNav()
+						}
+					}, false)**/
+
+						const body = document.getElementsByTagName('body')["0"]
+						var inicialX;
+						body.addEventListener('touchstart', function(e) {
+							var toqueobj = e.changedTouches[0];
+							inicialX = toqueobj.pageX;
+						}, false);
+						//
+						/**body.addEventListener('touchmove', function(e){
+							//e.preventDefault();
+						}, false)
+						**//**/
+						body.addEventListener('touchend', function(e){
+							var toqueobj = e.changedTouches[0];
+							var distancia = toqueobj.pageX - inicialX;
+							if(distancia < 0){
+								openNav()
+							}
+							if(distancia > 0){
+								closeNav()
+							}
+						}, false)
 		</script>
 
 </html>

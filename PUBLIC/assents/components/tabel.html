@@ -1,25 +1,48 @@
 <table class="tabel" >
 	<thead>
 		<tr>
-			<th>Segunda</th>
+			<th style="top:0%;">Programação Orientada a Objetos</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>07:40</td>
-			<td>POO</td>
+			<td class="titulo">Professor(a):</td>
+			<td style="width: 200px">CARLOS HENRIQUE</td>
 		</tr>
 		<tr>
-			<td>09:20</td>
-			<td>POO</td>
+			<td class="titulo" >Quantidade Aulas:</td>
+			<td class="quantAula_AulasMinistradas">80</td>
 		</tr>
 		<tr>
-			<td>10:40</td>
-			<td>Arquitetura</td>
+			<td class="titulo">Aulas Ministradas:</td>
+			<td class="quantAula_AulasMinistradas">64</td>
 		</tr>
 		<tr>
-			<td>11:10</td>
-			<td>Arquitetura</td>
+			<td class="titulo">Faltas:</td>
+			<td style="width: 50px;padding-left: 110px">0</td>
+		</tr>
+		<tr>
+			<td class="Ns">N1</td>
+			
+		</tr>
+		<tr>
+			<td class="titulo" >AV 01:</td>
+			<td class="notas-css">9.60</td>
+		</tr>
+		<tr>
+			<td class="titulo">AV 01:</td>
+			<td class="notas-css">9.60</td>
+		</tr>
+		<tr>
+			<td class="Ns">N2</td>
+		</tr>
+		<tr>
+			<td class="titulo">AV 01:</td>
+			<td class="notas-css">9.60</td>
+		</tr>
+		<tr>
+			<td class="titulo">AV 01:</td>
+			<td class="notas-css">9.60</td>
 		</tr>
 	</tbody>
 </table>
@@ -34,8 +57,9 @@
 	border-radius: 15px;
 	text-align: center;
 	box-shadow: 2px 2px 1px 1px #000;
-	width: 230px;
-	height: 300px;
+	width: 280px;/* muda */
+	height: 490px;/* muda */
+	padding-bottom: 1rem;/* muda */
 	background-color: #fff;
 	grid-template-areas: 
 	'thead'
@@ -61,7 +85,9 @@
 td{
 	padding-left: 20px;
 }
-
+.tabel thead tr{
+	width:61%;/* muda */
+}
 .tabel thead tr th{
 	display: inline;
 	top:30%;
@@ -71,6 +97,28 @@ td{
 	font-size: 1.3em;
 	font-weight: bold;
 }
+/* muda */
 
+.Ns{
+	width: 239px;
+	padding-left: 0;
+	margin-left: 20px;
+	display:block;
+	border-bottom:1px solid rgba(83, 85, 84, 0.7)
+}
+.titulo{
+	width: 100px;
+	text-align: left
+}
+.notas-css{
+	width: 50px;
+	padding-left: 90px
+}
 
+.quantAula_AulasMinistradas{
+	width: 50px;
+	padding-left: 100px
+}
+
+/* muda */
 </style>
